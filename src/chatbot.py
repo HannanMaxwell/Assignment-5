@@ -7,8 +7,8 @@ Example:
     $ python src/chatbot.py
 """
 
-__author__ = "COMP-1327 Faculty"
-__version__ = "1.0.2025"
+__author__ = "Muhammad Rahmani"
+__version__ = "03.21.2025"
 
 ACCOUNTS = {
     123456: {
@@ -24,6 +24,38 @@ VALID_TASKS = [
     "deposit", 
     "exit"
 ]
+
+def get_account_number() -> int:
+    """Returns the account number after it validates the user input.
+    
+       This function checks to see if the user input is a valid account
+       number and then returns the account number as an integer.
+
+       Args:
+            None.
+       
+       Returns:
+            int: The account number.
+
+       Raises:
+
+    """
+    # try except catches non integer values and raises a TypeError that
+    # says account number must be an int type
+    try:
+        # Takes the input account number from the user
+        account_number = int(input("Please enter your account number: "))
+    except ValueError as e:
+        raise TypeError("Account number must be an int type.")
+    
+    # if the account number is not in ACCOUNTS dictionary, then
+    # ValueError is raised saying account number does not exist
+    if account_number not in ACCOUNTS:
+        raise ValueError("Account number entered does not exist.")
+    # returns the account_number since its valid
+    return account_number
+    
+        
 
 def chatbot():
     """Performs the Chatbot functionality."""
