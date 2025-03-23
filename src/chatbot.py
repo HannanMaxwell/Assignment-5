@@ -54,10 +54,45 @@ def get_account_number() -> int:
     # ValueError is raised saying account number does not exist
     if account_number not in ACCOUNTS:
         raise ValueError("Account number entered does not exist.")
+    
     # returns the account_number since its valid
     return account_number
+
+def get_amount() -> float:
+    """Returns the user input as a float after asking amount to deposit.
     
+       This function asks the user for the amount to deposit and then 
+       returns it as a float.
+
+       Args:
+            None.
+       
+       Returns:
+            float: The deposit amount.
+
+       Raises:
+            TypeError: Raised when input entered is not an integer
+            ValueError: Raised when the amount entered is equal to
+                        zero and when amount entered is less than zero.                
+    """
+    # try except catches non integer values and raises a ValueError that
+    # says amount must be a numeric type.
+    try:
+        # Takes the input deposit amount from the user
+        amount = float(input("Enter an amount: "))
+    except ValueError as e:
+        if "could not convert string to float" in str(e):
+            raise TypeError("Amount must be a numeric type.")
     
+    # if statement checks to see if user input entered is equal to
+    # or less than 0, if it is, then raises ValueError stating to
+    # the user that "Amount must be a value greater than zero."
+    if amount <= 0:
+        raise ValueError("Amount must be a value greater than zero.")
+    
+    # Returns the deposit amount as float
+    return amount
+
 def chatbot():
     """Performs the Chatbot functionality."""
     COMPANY_NAME = "PiXELL River Financial"
