@@ -38,7 +38,9 @@ def get_account_number() -> int:
             int: The account number.
 
        Raises:
-
+            TypeError: Raised when input entered is not an integer
+            ValueError: Raised when the account number entered
+            does not exist in ACCOUNTS dictionary.                 
     """
     # try except catches non integer values and raises a TypeError that
     # says account number must be an int type
@@ -55,8 +57,7 @@ def get_account_number() -> int:
     # returns the account_number since its valid
     return account_number
     
-        
-
+    
 def chatbot():
     """Performs the Chatbot functionality."""
     COMPANY_NAME = "PiXELL River Financial"
