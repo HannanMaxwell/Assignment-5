@@ -19,6 +19,7 @@ from unittest.mock import patch
 from src.chatbot import ACCOUNTS, VALID_TASKS
 from src.chatbot import get_account_number
 from src.chatbot import get_amount
+from src.chatbot import get_balance
 
 class TestChatBot(unittest.TestCase):
     def test_get_account_number_non_integer(self):
@@ -130,5 +131,40 @@ class TestChatBot(unittest.TestCase):
         expected = 330.30
         self.assertEqual(expected, actual)
 
+    def test_get_balance_not_int(self):
+        # Arrange
+        invalid_account_number = "abcd"
 
+        # Act
+        # Raise TypeError by calling the function
+        with self.assertRaises(TypeError) as context:
+            get_balance(invalid_account_number)
+        
+        # Assert
+        expected = "Account number must be an int type."
+        self.assertEqual(expected, str(context.exception))
+
+    def test_get_balance_does_not_exist(self):
+        # Arrange
+        account_number_does_not_exist = 567890
+
+        # Act
+        # Raise ValueError by calling the function
+        with self.assertRaises(ValueError) as context:
+            get_balance(account_number_does_not_exist)
+        
+        # Assert
+        expected = "Account number does not exist."
+        self.assertEqual(expected, str(context.exception))
+
+    def test_get_balance_valid(self):
+        # Arrange
+        valid_account_number = 123456
+
+        # Act
+        actual = get_balance(valid_account_number)
+
+        # Assert
+        expected = "Your current balance for account 123456 is $1,000.00."
+        self.assertEqual(expected, actual)
              

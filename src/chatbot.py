@@ -120,10 +120,10 @@ def get_balance(account_number: int) -> str:
     # dictionary, then raises a ValueError
     if account_number not in ACCOUNTS:
         raise ValueError("Account number does not exist.")
-    balance = ACCOUNTS[account_number]
+    balance = ACCOUNTS[account_number]["balance"]
 
     # returns the balance for the account number
-    return f"Your current balance for account {account_number} is ${balance:,.2f}"
+    return f"Your current balance for account {account_number} is ${balance:,.2f}."
 
 def chatbot():
     """Performs the Chatbot functionality."""
