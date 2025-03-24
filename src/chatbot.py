@@ -191,7 +191,13 @@ def get_task() -> str:
     return task
 
 def chatbot():
-    """Performs the Chatbot functionality."""
+    """Performs the Chatbot functionality.
+       Presents the user with a menu of tasks to choose from such as
+       balance/deposit/exit. If deposit is chosen then the amount is
+       deposited into the selected account. If balance is chosen, then
+       the balance of the account selected is printed. If exit is chosen
+       the program exits and an exit message is printed.
+    """
     COMPANY_NAME = "PiXELL River Financial"
 
     # Print welcome message
