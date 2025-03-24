@@ -167,6 +167,29 @@ def make_deposit(account_number: int, amount: float) -> str:
     ACCOUNTS[account_number]["balance"] += amount
     return f"You have made a deposit of ${amount:,.2f} to account {account_number}."
 
+def get_task() -> str:
+    """Returns a task which is a string that is entered by the user.
+    
+       This function prompts the user for a task. The user can enter
+       balance, deposit or exit.
+
+       Args:
+            None.
+       
+       Returns:
+            str: The task entered by the user.
+
+       Raises:
+            ValueError: Raised when the task is invalid.               
+    """
+    # Asks for user's input for a task
+    task = input("What would you like to do (balance/deposit/exit)?: ").lower()
+    # if the task is not in the VALID_TASKS, then ValueError is raised
+    if task not in VALID_TASKS:
+        raise ValueError(f'"{task}" is an unknown task.')
+    
+    return task
+
 def chatbot():
     """Performs the Chatbot functionality."""
     COMPANY_NAME = "PiXELL River Financial"
@@ -174,9 +197,41 @@ def chatbot():
     # Print welcome message
     print(f"Welcome! I'm the {COMPANY_NAME} Chatbot! "
           f"Let's get chatting!")
+    
+    # is_valid is true until the user wants to exit the
+    # loop
+    is_valid = True
 
-    # Print thank you message
-    print(f"Thank you for banking with {COMPANY_NAME}.")
+    # while loop keeps looping till the user wants to exit
+    while is_valid:
+        try:
+            # gets the task from user input
+            task = get_task()
+            # if the task equals to exit, then the program is
+            # exited
+            if task == "exit":
+                # Print thank you message
+                print(f"Thank you for banking with {COMPANY_NAME}.")
+                is_valid = False
+            else:
+                # Getting the account number
+                account_number = get_account_number()
+
+                # If the task is deposit, then the amount is deposited
+                # and then the deposit message is displayed
+                if task == "deposit":
+                    amount = get_amount()
+                    deposit_message = make_deposit(account_number, amount)
+                    balance_message = get_balance(account_number)
+                    print(deposit_message)
+                    print(balance_message)
+                # gets the account number and prints the account balance
+                elif task == "balance":
+                    balance_message = get_balance(account_number)
+                    print(balance_message)
+        # prints error message if it catches an error
+        except Exception as e:
+            print (f"Error found: {e}")
 
 if __name__ == "__main__":
     chatbot()

@@ -21,6 +21,7 @@ from src.chatbot import get_account_number
 from src.chatbot import get_amount
 from src.chatbot import get_balance
 from src.chatbot import make_deposit
+from src.chatbot import get_task
 
 class TestChatBot(unittest.TestCase):
     def test_get_account_number_non_integer(self):
@@ -234,5 +235,30 @@ class TestChatBot(unittest.TestCase):
 
         self.assertEqual(expected, actual)
         self.assertEqual(ACCOUNTS[123456]["balance"], 1500.50)
+
+    def test_get_task_invalid(self):
+        # Arrange
+        user_input = "withdraw"
+
+        # Act
+        with patch("builtins.input", return_value=user_input):
+            with self.assertRaises(ValueError) as context:
+                get_task()
+
+        # Assert
+        expected = '"withdraw" is an unknown task.'
+        self.assertEqual(expected, str(context.exception))
+
+    def test_get_task_valid(self):
+        # Arrange
+        user_input = "balance"
+
+        # Act
+        with patch("builtins.input", return_value=user_input):
+            actual = get_task()
+        
+        # Assert
+        expected = "balance"
+        self.assertEqual(expected, actual)
 
              
