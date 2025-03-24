@@ -108,7 +108,7 @@ def get_balance(account_number: int) -> str:
             str: The message with account number and the balance.
 
        Raises:
-            TypeError: Raised when input entered is not an integer
+            TypeError: Raised when account number is not an integer
             ValueError: Raised when account number does not exist
                         in the ACCOUNTS dictionary.                
     """
@@ -124,6 +124,48 @@ def get_balance(account_number: int) -> str:
 
     # returns the balance for the account number
     return f"Your current balance for account {account_number} is ${balance:,.2f}."
+
+def make_deposit(account_number: int, amount: float) -> str:
+    """Returns a string message stating the amount deposited to a specific
+       account.
+    
+       This function takes in two parameters account_number which is an
+       integer and amount which is a float and returns a message with
+       the amount deposited to the account.
+
+       Args:
+            account_number (int): The account number.
+            amount (float): The amount deposited.
+       
+       Returns:
+            str: The message with amount deposited to account number.
+
+       Raises:
+            TypeError: Raised when account number is not an integer
+            ValueError: Raised when account number does not exist
+                        in the ACCOUNTS dictionary.
+            ValueError: Raised when the amount entered is not numeric.
+            ValueError: Raised when amount entered is zero or a
+                        negative value.                
+    """
+    # if statement checks to see if account_number is an int or not
+    # if it is not an int, then TypeError is raised.
+    if not isinstance(account_number, int):
+        raise TypeError("Account number must be an int type.")
+    # if statement checks to see if the account_number is in ACCOUNTS
+    # dictionary. If it is not in ACCOUNTS then ValueError is raised.
+    if account_number not in ACCOUNTS:
+        raise ValueError("Account number does not exist.")
+    # if the amount number is not an integer or a float, then
+    # ValueError is raised.
+    if not isinstance(amount, (int, float)):
+        raise ValueError("Amount must be a numeric type.")
+    # If the amount is less than or equal to zero, ValueError is raised
+    if amount <= 0:
+        raise ValueError("Amount must be a value greater than zero.")
+    # Adds the deposit amount to the account
+    ACCOUNTS[account_number]["balance"] += amount
+    return f"You have made a deposit of ${amount:,.2f} to account {account_number}."
 
 def chatbot():
     """Performs the Chatbot functionality."""

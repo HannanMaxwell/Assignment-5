@@ -20,6 +20,7 @@ from src.chatbot import ACCOUNTS, VALID_TASKS
 from src.chatbot import get_account_number
 from src.chatbot import get_amount
 from src.chatbot import get_balance
+from src.chatbot import make_deposit
 
 class TestChatBot(unittest.TestCase):
     def test_get_account_number_non_integer(self):
@@ -167,4 +168,71 @@ class TestChatBot(unittest.TestCase):
         # Assert
         expected = "Your current balance for account 123456 is $1,000.00."
         self.assertEqual(expected, actual)
+
+    def test_make_deposit_non_int_account(self):
+        # Arrange
+        non_int_account_number = "abcd"
+        valid_amount = 500
+
+        # Act
+        with self.assertRaises(TypeError) as context:
+            make_deposit(non_int_account_number, valid_amount)
+        
+        # Assert
+        expected = "Account number must be an int type."
+        self.assertEqual(expected, str(context.exception))
+
+    def test_make_deposit_account_does_not_exist(self):
+        # Arrange
+        account_does_not_exist = 505050
+        valid_amount = 500
+
+        # Act
+        with self.assertRaises(ValueError) as context:
+            make_deposit(account_does_not_exist, valid_amount)
+
+        # Assert
+        expected = "Account number does not exist."
+        self.assertEqual(expected, str(context.exception))
+
+    def test_make_deposit_amount_zero(self):
+        # Arrange
+        valid_account_number = 123456
+        amount_zero = 0
+
+        # Act
+        with self.assertRaises(ValueError) as context:
+            make_deposit(valid_account_number, amount_zero)
+        
+        # Assert
+        expected = "Amount must be a value greater than zero."
+        self.assertEqual(expected, str(context.exception))
+
+    def test_make_deposit_negative_amount(self):
+        # Arrange
+        valid_account_number = 123456
+        negative_amount = -500
+
+        # Act
+        with self.assertRaises(ValueError) as context:
+            make_deposit(valid_account_number, negative_amount)
+        
+        # Assert
+        expected = "Amount must be a value greater than zero."
+        self.assertEqual(expected, str(context.exception))
+
+    def test_make_deposit_valid(self):
+        # Arrange
+        valid_account_number = 123456
+        valid_amount = 500.50
+
+        # Act
+        actual = make_deposit(valid_account_number, valid_amount)
+
+        # Assert
+        expected = "You have made a deposit of $500.50 to account 123456."
+
+        self.assertEqual(expected, actual)
+        self.assertEqual(ACCOUNTS[123456]["balance"], 1500.50)
+
              
